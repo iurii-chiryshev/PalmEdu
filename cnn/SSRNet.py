@@ -293,9 +293,9 @@ class SSRNet(nn.Module):
 def demo_test():
     import time
     net = SSRNet()
-    net = net.cuda('cuda')
+    net = net.cuda(0)
     net.eval()
-    x = torch.randn(1, 3, 64, 64).cuda('cuda')
+    x = torch.randn(1, 3, 64, 64).cuda(0)
     test_numbers_ = 1000
     a_time = time.time()
     for i in range(test_numbers_):

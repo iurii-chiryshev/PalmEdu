@@ -14,12 +14,12 @@ class Flatten(nn.Module):
 
 
 class ONet(nn.Module):
-    def __init__(self, keypoint_num):
+    def __init__(self):
         super(ONet, self).__init__()
 
         self.features = nn.Sequential(
             OrderedDict([
-                ('conv1', nn.Conv2d(1, 32, 3, 1)),
+                ('conv1', nn.Conv2d(3, 32, 3, 1)),
                 ('prelu1', nn.PReLU(32)),
                 ('pool1', nn.MaxPool2d(3, 2, ceil_mode=True)),
                 ('conv2', nn.Conv2d(32, 64, 3, 1)),
@@ -36,7 +36,7 @@ class ONet(nn.Module):
         self.conv5 = nn.Linear(3200, 256)  # 21632 if [128x128], 3200 if [64x64]
         self.drop5 = nn.Dropout(0.25)
         self.prelu5 = nn.PReLU(256)
-        self.landmarks = nn.Linear(256, keypoint_num * 3) # [x,y,visible]
+        self.result = nn.Linear(256, 1) #
 
     def forward(self, x):
         x = self.features(x)
@@ -44,12 +44,12 @@ class ONet(nn.Module):
         x = self.conv5(x)
         x = self.drop5(x)
 
-        lm = self.landmarks(x)
-        return lm
+        x = self.result(x).view(-1)
+        return x
 
 
 if __name__ == '__main__':
-    net = ONet(1)
-    dummy_input = torch.randn(1, 1, 64, 64)
+    net = ONet()
+    dummy_input = torch.randn(1, 3, 64, 64)
     out = net(dummy_input)
     print(out)
