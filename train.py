@@ -37,23 +37,6 @@ def adjust_learning_rate(optimizer, initial_lr, step_index):
     return lr
 
 
-def adjust_learning_rate_warmup(optimizer, epoch, base_learning_rate, batch_id, burn_in=1000):
-    lr = base_learning_rate
-    if batch_id < burn_in:
-        lr = base_learning_rate * pow(float(batch_id) / float(burn_in), 4)
-        for param_group in optimizer.param_groups:
-            param_group['lr'] = lr
-    else:
-        if epoch >= 60:  # 40 320
-            lr /= 10
-        if epoch >= 120:
-            lr /= 10
-        if epoch >= 267:
-            lr /= 10
-        for param_group in optimizer.param_groups:
-            param_group['lr'] = lr
-
-
 def train(net, trainloader, criterion, optimizer, device):
     net.train()
     train_loss = []
