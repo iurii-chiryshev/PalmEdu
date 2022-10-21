@@ -46,7 +46,6 @@ def train(net, trainloader, criterion, optimizer, device):
         optimizer.zero_grad()
         imgs, labels = imgs.to(device), labels.to(torch.float32).to(device)
         predicts = net(imgs)
-        optimizer.zero_grad()
         loss = criterion(predicts,labels)
         loss.backward()
         optimizer.step()
