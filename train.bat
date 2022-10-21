@@ -1,0 +1,11 @@
+python -m train ^
+-j 4 ^
+--step "50,75,88" ^
+--end_epoch 100 ^
+--snapshot "./models/checkpoints" ^
+--tensorboard "./models/logs" ^
+--train_path "D:/projects/PalmEduData/train" ^
+--test_path  "D:/projects/PalmEduData/test" ^
+--train_batchsize 64 ^
+--test_batchsize 64 ^
+--input_size 64
